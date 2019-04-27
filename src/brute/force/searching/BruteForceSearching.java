@@ -21,6 +21,7 @@ public class BruteForceSearching implements ActionListener{
      * @param args the command line arguments
      */
     NewJFrame view;
+    public int t=0;
     
     public BruteForceSearching(){
         view = new NewJFrame();
@@ -31,13 +32,14 @@ public class BruteForceSearching implements ActionListener{
         view.setVisible(true);  
     }
     
-    public static int stringMatching(String text, String pattern){
+    public int stringMatching(String text, String pattern){
         int lengthOfPattern = pattern.length();
         int lengthOfText = text.length();
         
         for (int i = 0; i <= lengthOfText - lengthOfPattern; i++){
             int j;
             for (j = 0; j < lengthOfPattern; j++){
+                t++;
                 if (text.charAt(i + j) != pattern.charAt(j))
                     break;
             }
@@ -50,23 +52,26 @@ public class BruteForceSearching implements ActionListener{
         // TODO code application logic here
         BruteForceSearching brute = new BruteForceSearching();
     }
-
+    
     @Override
     public void actionPerformed(ActionEvent ae) {
         if (ae.getSource().equals(view.getCariBtn())){
            int hasil = stringMatching(view.getText().getText(), view.getPattern().getText());
            if (hasil == view.getText().getText().length())
                 view.getOutput().setText("<html><body><font color='red'>Error</font><br>"
-                        + "<p>Pattern not found</p></body></html>");
+                        + "<p>Pattern not found</p>"
+                        + "<p>Time Complexity = "+t+"</p></body></html>");
            else
                try {
                    view.getOutput().setText("<html><body><font color='green'>Success</font><br>"
                            + "<p>"+view.getText().getText(0,(hasil))+"<font color='blue'>" +view.getText().getText(hasil,view.getPattern().getText().length())
                            + "</font>"+ view.getText().getText(hasil+view.getPattern().getText().length(),view.getText().getText().length()-(hasil+view.getPattern().getText().length()))
-                           + "</p></body></html>");
+                           + "</p>"
+                           + "<p>Time Complexity = "+t+"</p></body></html>");
            } catch (BadLocationException ex) {
                Logger.getLogger(BruteForceSearching.class.getName()).log(Level.SEVERE, null, ex);
            }
+           t=0;
         }
     }
     
